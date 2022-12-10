@@ -24,7 +24,9 @@ exports.getAllTours = async (req, res) => {
       /\b(gte|gt|lte|lt)\b/g,
       (match) => `$${match}`
     );
-    const tours = await Tour.find(queryObj);
+
+    console.log(JSON.parse(queryString));
+    const tours = await Tour.find(JSON.parse(queryString));
     res.status(200).json({
       status: 'success',
       results: tours.length,
@@ -35,7 +37,7 @@ exports.getAllTours = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       status: 'failed',
-      message: err,
+      message: error,
     });
   }
 };

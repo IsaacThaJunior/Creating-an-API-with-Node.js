@@ -10,14 +10,6 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-  })
-  .then(() => {
-    console.log('DB connection successful!');
-  });
-
 // READ JSON FILE
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8')
@@ -26,6 +18,13 @@ const tours = JSON.parse(
 //IMPORT DATA INTO DB
 const importData = async () => {
   try {
+    await mongoose
+      .connect(DB, {
+        useNewUrlParser: true,
+      })
+      .then(() => {
+        console.log('DB connection successful!');
+      });
     await Tour.create(tours);
     console.log('Data created successfully');
   } catch (error) {
@@ -37,6 +36,13 @@ const importData = async () => {
 // DELETE DATA FROM DB
 const deleteData = async () => {
   try {
+    await mongoose
+      .connect(DB, {
+        useNewUrlParser: true,
+      })
+      .then(() => {
+        console.log('DB connection successful!');
+      });
     await Tour.deleteMany(tours);
     console.log('Data deleted successfully');
   } catch (error) {
@@ -44,6 +50,8 @@ const deleteData = async () => {
   }
   process.exit();
 };
+
+console.log(process.argv);
 
 if (process.argv[2] === '--import') {
   importData();
